@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Growzy: How this course works?</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9f6ff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .container {
+      max-width: 600px;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    h1 {
+      color: #4a3e8c;
+      margin-bottom: 1.5rem;
+    }
+
+    .line {
+      opacity: 0;
+      transition: opacity 1s ease;
+      margin-bottom: 1rem;
+      color: #333;
+      font-size: 1rem;
+    }
+
+    .line.show {
+      opacity: 1;
+    }
+
+    #proceed-btn {
+      margin-top: 2rem;
+      padding: 0.8rem 2rem;
+      font-size: 1rem;
+      background-color: #7a5fff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: not-allowed;
+      opacity: 0.5;
+      transition: all 0.5s ease;
+    }
+
+    #proceed-btn.active {
+      cursor: pointer;
+      pointer-events: auto;
+      opacity: 1;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(122, 95, 255, 0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(122, 95, 255, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(122, 95, 255, 0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>How this course works?</h1>
+    <div id="lines">
+      <div class="line" data-time="0">How will this course work?</div>
+      <div class="line" data-time="2">Here's how we'll learn.</div>
+      <div class="line" data-time="4">You'll start each module with a short immersive story, then we'll break down one key concept behind business storytelling.</div>
+      <div class="line" data-time="11">You'll test yourself with quick multiple choice questions.</div>
+      <div class="line" data-time="14">At the end of each module, you'll earn a badge and unlock the next one.</div>
+      <div class="line" data-time="18">No boring lectures, just clear lessons, powerful examples, and real storytelling tools designed to level up your influence one story at a time.</div>
+      <div class="line" data-time="28" id="final-line">Let's begin.</div>
+    </div>
+    <button id="proceed-btn">Proceed</button>
+  </div>
+
+  <audio id="bg-audio" src="M0-P3.mp3" autoplay></audio>
+  <audio id="click-sound" src="click.mp3" preload="auto"></audio>
+
+  <script>
+    const audio = document.getElementById("bg-audio");
+    const clickSound = document.getElementById("click-sound");
+    const lines = document.querySelectorAll(".line");
+    const proceedBtn = document.getElementById("proceed-btn");
+    const finalLine = document.getElementById("final-line");
+    let hasActivated = false;
+
+    function syncTranscript() {
+      const currentTime = audio.currentTime;
+
+      lines.forEach(line => {
+        const time = parseFloat(line.dataset.time);
+        if (currentTime >= time && !line.classList.contains("show")) {
+          line.classList.add("show");
+        }
+      });
+
+      if (finalLine.classList.contains("show") && !hasActivated) {
+        proceedBtn.classList.add("active");
+        hasActivated = true;
+      }
+
+      requestAnimationFrame(syncTranscript);
+    }
+
+    audio.addEventListener("play", () => {
+      requestAnimationFrame(syncTranscript);
+    });
+
+    // In case autoplay fails on mobile
+    window.addEventListener("click", () => {
+      audio.play();
+    });
+
+    proceedBtn.addEventListener("click", () => {
+      if (!proceedBtn.classList.contains("active")) return;
+      clickSound.play();
+      setTimeout(() => {
+        location.href = 'M1_1.html';
+      }, 300); // give time for the click sound to play
+    });
+  </script>
+</body>
+</html>

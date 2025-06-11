@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Growzy: What is Business Storytelling?</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9f6ff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .container {
+      max-width: 600px;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    h1 {
+      color: #4a3e8c;
+      margin-bottom: 1.5rem;
+    }
+
+    .line {
+      opacity: 0;
+      transition: opacity 1s ease;
+      margin-bottom: 1rem;
+      color: #333;
+      font-size: 1rem;
+    }
+
+    .line.show {
+      opacity: 1;
+    }
+
+    .quote-line {
+      font-style: italic;
+      color: #6a4fcf;
+      font-size: 1rem;
+      margin-top: 1.2rem;
+    }
+
+    #proceed-btn {
+      margin-top: 2rem;
+      padding: 0.8rem 2rem;
+      font-size: 1rem;
+      background-color: #7a5fff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: not-allowed;  /* Show it's inactive */
+      opacity: 0.5;          /* Slightly dim */
+      transition: all 0.5s ease;
+    }
+
+    #proceed-btn.active {
+      cursor: pointer;
+      pointer-events: auto;
+      opacity: 1;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(122, 95, 255, 0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(122, 95, 255, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(122, 95, 255, 0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>What is Business Storytelling?</h1>
+    <div id="lines">
+      <div class="line" data-time="0">What is business storytelling?</div>
+      <div class="line" data-time="2">Let's break it down.</div>
+      <div class="line" data-time="4">Business storytelling means using story structures to communicate complex ideas in a way that connects emotionally, simplifies understanding, and leads to action.</div>
+      <div class="line" data-time="13">It's about taking a fact or message and framing it like a journey which has:</div>
+      <div class="line" data-time="19">A hero (your user, customer, or team) who is,</div>
+      <div class="line" data-time="23">Facing a problem,</div>
+      <div class="line" data-time="24">Searching for a solution,</div>
+      <div class="line" data-time="26">And experiencing change.</div>
+      <div class="line" data-time="28">This is the structure behind the best TED Talks, product launches, investor pitches, leadership speeches, and even internal emails.</div>
+      <div class="line" data-time="37">Just like Steve Jobs didn't just launch products, he took you on a journey.</div>
+      <div class="line" data-time="42">Airbnb's pitch wasn't about market size. It was a story about how travel was broken.</div>
+      <div class="quote-line line" data-time="47" id="final-quote">“The most powerful person in the room is the storyteller.” – Steve Jobs</div>
+    </div>
+    <button id="proceed-btn">Proceed</button>
+  </div>
+
+  <audio id="bg-audio" src="M0-P2.mp3" autoplay></audio>
+  <audio id="click-sound" src="click.mp3" preload="auto"></audio>
+
+  <script>
+    const audio = document.getElementById("bg-audio");
+    const clickSound = document.getElementById("click-sound");
+    const lines = document.querySelectorAll(".line");
+    const proceedBtn = document.getElementById("proceed-btn");
+    const finalQuote = document.getElementById("final-quote");
+    let hasActivated = false;
+
+    // Show lines based on audio timing
+    function syncTranscript() {
+      const currentTime = audio.currentTime;
+
+      lines.forEach(line => {
+        const time = parseFloat(line.dataset.time);
+        if (currentTime >= time && !line.classList.contains("show")) {
+          line.classList.add("show");
+        }
+      });
+
+      // Activate button only after last quote
+      if (finalQuote.classList.contains("show") && !hasActivated) {
+        proceedBtn.classList.add("active");
+        hasActivated = true;
+      }
+
+      requestAnimationFrame(syncTranscript);
+    }
+
+    // Begin when audio plays
+    audio.addEventListener("play", () => {
+      requestAnimationFrame(syncTranscript);
+    });
+
+    // Allow manual audio play
+    window.addEventListener("click", () => {
+      audio.play();
+    });
+
+    // Click behavior
+    proceedBtn.addEventListener("click", () => {
+      if (!proceedBtn.classList.contains("active")) return;  // Prevent early clicks
+      clickSound.play();
+      setTimeout(() => {
+        location.href = 'M0_2.html';
+      }, 300);
+    });
+  </script>
+</body>
+</html>

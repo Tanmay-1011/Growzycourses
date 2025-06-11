@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Growzy Story Slide</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f4f1ff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+    }
+
+    h1 {
+      color: #4a3e8c;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .image-box {
+      width: 100%;
+      max-width: 600px;
+      margin-bottom: 1.5rem;
+    }
+
+    .image-box img {
+      width: 100%;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    }
+
+    audio {
+      margin-bottom: 1rem;
+      width: 100%;
+      max-width: 600px;
+    }
+
+    .transcript-box {
+      max-width: 600px;
+      max-height: 200px;
+      overflow-y: auto;
+      background: #fff;
+      padding: 1rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .line {
+      color: #333;
+      font-size: 1rem;
+      margin-bottom: 0.6rem;
+      opacity: 0.6;
+      transition: all 0.3s ease;
+    }
+
+    .line.active {
+      font-weight: bold;
+      opacity: 1;
+      background-color: #eae2ff;
+      padding: 0.3rem;
+      border-radius: 6px;
+    }
+
+    #next-btn {
+      margin-top: 1.5rem;
+      padding: 0.8rem 2rem;
+      font-size: 1rem;
+      background-color: #7a5fff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      opacity: 0.5;
+      pointer-events: none;
+      transition: all 0.3s ease;
+    }
+
+    #next-btn.active {
+      opacity: 1;
+      pointer-events: auto;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(122, 95, 255, 0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(122, 95, 255, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(122, 95, 255, 0); }
+    }
+  </style>
+</head>
+<body>
+  <h1>Alex's Pitch: A Story About Storytelling</h1>
+
+  <div class="image-box">
+    <img id="scene-img" src="story.avif" alt="Story Scene">
+  </div>
+
+  <audio id="audio" controls src="story.mp3"></audio>
+
+  <div class="transcript-box" id="transcript-box">
+    <!-- Transcript lines will be inserted here by JS -->
+  </div>
+<a href="M1CQ.html">
+  <button id="next-btn">Next</button>
+</a>
+  <script>
+    const audio = document.getElementById("audio");
+    const transcriptBox = document.getElementById("transcript-box");
+    const sceneImg = document.getElementById("scene-img");
+    const nextBtn = document.getElementById("next-btn");
+
+    const transcript = [
+      { time: 0, text: "It's 10:02 a.m. on a rainy Tuesday morning." },
+      { time: 3, text: "The product team is gathered in the seventh floor glass-walled conference room of a fast growing FinTech startup." },
+      { time: 9, text: "At the head of the table sits Alex, the product manager, sharp, data driven, logical to the bone." },
+      { time: 15, text: "Today he's about to pitch his idea for a new AI powered savings feature to the leadership team." },
+      { time: 21, text: "He's been prepping for weeks." },
+      { time: 22, text: "Spreadsheets, perfect." },
+      { time: 24, text: "Deck flawless, 47 slides, all facts, no fluff." },
+      { time: 28, text: "He clears his throat." },
+      { time: 30, text: "The CTO nods." },
+      { time: 32, text: "The pitch begins." },
+      { time: 33, text: "Our research shows that users who save more than 15% of their income are 37% less likely to churn." },
+      { time: 41, text: "By implementing this ASave feature, we could increase retention by 12.8% over Q3." },
+      { time: 48, text: "Here's the breakdown by segment slide after slide, chart after chart, number after number." },
+      { time: 54, text: "He's in the zone." },
+      { time: 56, text: "But something's off." },
+      { time: 58, text: "The CEO's checking his phone, the CMOs scribbling in his notebook, the room isn't leaning in." },
+      { time: 64, text: "It's drifting away." },
+      { time: 66, text: "After 22 minutes, Alex stops, smiles and says, So what do you think?" },
+      { time: 73, text: "It's solid, but I'm not sure I feel the urgency." },
+      { time: 78, text: "Could you help us imagine what this would actually look like for a user?" },
+      { time: 82, text: "And just like that, the pitch lands flat." },
+      { time: 86, text: "Not because the data was wrong, not because the idea lacked potential, but because it lacked a story." },
+      { time: 92, text: "No human, no emotion, no journey, just charts." },
+      { time: 97, text: "Now pause for a second." },
+      { time: 99, text: "Think back to a moment when you tried to convince someone using facts alone." },
+      { time: 103, text: "Did it land or did it feel like Alex's pitch?" },
+      { time: 106, text: "Why do people say facts tell, but stories sell?" },
+      { time: 110, text: "Let's find out." },
+
+      // Scene change — Maya enters
+      { time: 112, text: "Later that evening, Alex sits at his desk, frustrated." },
+      { time: 116, text: "His colleague, Maya walks over." },
+      { time: 118, text: "You know, I liked your idea, but maybe you were telling the wrong story." },
+      { time: 123, text: "I didn't tell any story." },
+      { time: 124, text: "Exactly." },
+      { time: 125, text: "Alex looks up, surprised." },
+      { time: 127, text: "But this is FinTech." },
+      { time: 129, text: "We're here to optimize behavior with data, not tell bedtime stories." },
+      { time: 134, text: "No, not bedtime stories, but real stories." },
+      { time: 138, text: "Think about it." },
+      { time: 139, text: "Who is this product really for?" },
+      { time: 141, text: "Users who don't save, who forget to, or feel like they can't." },
+      { time: 149, text: "Exactly." },
+      { time: 150, text: "What if you told their story?" },
+      { time: 152, text: "Just one?" },
+      { time: 153, text: "Maybe someone who always meant to save but didn't?" },
+      { time: 156, text: "And what changed when they finally could?" },
+      { time: 158, text: "In that moment, something shifts in Alex's mind." },
+      { time: 161, text: "This wasn't about dashboards." },
+      { time: 163, text: "It was about people, struggles, decisions, change." },
+      { time: 167, text: "He rewrites the pitch." },
+
+      // Scene switches back
+      { time: 168, text: "Here's what Alex's first version was missing and what his second version got right." },
+      { time: 173, text: "Every compelling story, even in business, has four essential elements: character, the human your audience relates to; conflict, the tension or problem; stakes, what's at risk; and resolution, the transformation." },
+      { time: 190, text: "In his new pitch, Alex opened with this." },
+      { time: 193, text: "Let me introduce you to Megan." },
+      { time: 195, text: "She's a 28-year-old freelance designer." },
+      { time: 198, text: "She's brilliant, but unpredictable income makes saving nearly impossible." },
+      { time: 202, text: "Two months ago, she nearly had to sell her laptop to pay rent." },
+      { time: 206, text: "Then she turned on our new AutoSave feature." },
+      { time: 208, text: "Now she's got $1200 set aside and growing." },
+      { time: 212, text: "That's not just retention, that's real change." },
+      { time: 215, text: "That's the power of story — same product, same benefit." },
+      { time: 219, text: "But this time, the room leaned in." }
+    ];
+
+    transcript.forEach((line, index) => {
+      const div = document.createElement("div");
+      div.className = "line";
+      div.id = "line-" + index;
+      div.textContent = line.text;
+      transcriptBox.appendChild(div);
+    });
+
+    function scrollToActiveLine(index) {
+      const line = document.getElementById("line-" + index);
+      if (line) {
+        line.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+
+    audio.addEventListener("timeupdate", () => {
+      const currentTime = audio.currentTime;
+      transcript.forEach((line, index) => {
+        const el = document.getElementById("line-" + index);
+        if (currentTime >= line.time) {
+          document.querySelectorAll(".line").forEach(l => l.classList.remove("active"));
+          el.classList.add("active");
+          scrollToActiveLine(index);
+        }
+      });
+
+      // Scene change at 1:52
+      if (currentTime >= 112 && currentTime < 190) {
+        sceneImg.src = "story1.webp";
+      } else {
+        sceneImg.src = "story.avif";
+      }
+
+      // Show Next button at end
+      if (currentTime >= 219) {
+        nextBtn.classList.add("active");
+      }
+    });
+  </script>
+</body>
+</html>

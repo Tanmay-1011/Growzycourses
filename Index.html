@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Growzy – Business Storytelling</title>
+  <style>
+    body {
+      background: linear-gradient(180deg, #fdfdff 0%, #f3efff 100%);
+      color: #1a1a1a;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 5vh 6vw;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    h1 {
+      text-align: center;
+      color: #7a4fff;
+      font-size: 1.8rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .line {
+      opacity: 0;
+      transition: opacity 1s ease;
+      margin: 1rem 0;
+      font-size: 1rem;
+    }
+
+    .line.visible {
+      opacity: 1;
+    }
+
+    .quote {
+      opacity: 0;
+      font-size: 1.1rem;
+      font-style: italic;
+      margin-top: 3rem;
+      color: #6e00ff;
+      text-align: center;
+      padding: 0 1rem;
+      transition: opacity 1s ease;
+    }
+
+    .quote.visible {
+      opacity: 1;
+    }
+
+    .button {
+      margin-top: 1.5rem;
+      display: flex;
+      justify-content: center;
+      padding: 0 1rem;
+    }
+
+   .button a {
+  background: #7a4fff;
+  padding: 1rem;
+  color: white;
+  text-decoration: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  width: 100%;
+  text-align: center;
+  max-width: 400px;
+  box-sizing: border-box;
+  transition: background 0.3s ease, opacity 0.3s ease;
+  pointer-events: auto;
+  opacity: 1;
+}
+
+.button a.disabled {
+  background: #c4b8f2;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+    .button a:hover {
+      background: #5e30da;
+    }
+
+  </style>
+</head>
+<body>
+
+
+  <h1>Growzy Course: Business Storytelling</h1>
+
+  <div id="transcript">
+    <div class="line">Welcome to business storytelling, a course designed to help you make your ideas stick, move people to action, and communicate like the world's best leaders.</div>
+    <div class="line">This is not a course about fiction writing, and it's not about spinning tales.</div>
+    <div class="line">It's about learning how to use story structures to make real world business communication more engaging, memorable, and impactful.</div>
+    <div class="line">Whether you're a startup founder, a manager, a marketer, or just someone with big ideas.</div>
+    <div class="line">This course will help you craft pitches that inspire, deliver messages that stick, lead teams with clarity, and sell ideas with emotion plus logic.</div>
+  </div>
+
+
+<div class="quote" id="final-quote">
+  <img src="turtle.png" alt="Growzy Turtle" class="turtle-img" />
+  <p>"The most powerful person in the room is not the one with the best data, but the one with the best story."</p>
+</div>
+  <div class="button">
+  <a href="M0_1.html" id="proceed-btn" class="disabled">Proceed</a>
+</div>
+
+  <audio id="bg-audio" src="M0-P1.mp3" preload="auto"></audio>
+
+  <script>
+  const audio = document.getElementById('bg-audio');
+  const lines = document.querySelectorAll('.line');
+  const quote = document.getElementById('final-quote');
+  const button = document.getElementById('proceed-btn');
+
+  const timings = [0, 9000, 13000, 21000, 27000]; // ms
+
+  function showLine(index) {
+    if (lines[index]) {
+      lines[index].classList.add('visible');
+    }
+  }
+
+  window.addEventListener('click', () => {
+    audio.play();
+    timings.forEach((time, index) => {
+      setTimeout(() => showLine(index), time);
+    });
+  }, { once: true });
+
+  audio.addEventListener('ended', () => {
+    quote.classList.add('visible');
+    button.classList.remove('disabled');
+  });
+</script>
+
+
+</body>
+</html>
